@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>PhamilyFoneClone</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #0F1923;
+  color: white;
+  max-width: 430px;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* TOP NAV */
+.topnav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 18px 14px;
+}
+
+.logo {
+  font-family: 'Sora', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+}
+
+.logo-p { color: #FFB830; }
+.logo-c { color: #ffffff; }
+
+.nav-btn {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 100px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+
+/* HERO IMAGE */
+.hero-image-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+}
+
+.hero-image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hero-image-wrap::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 60%;
+  background: linear-gradient(to top, #0F1923 0%, transparent 100%);
+}
+
+/* HERO COPY */
+.hero-copy {
+  padding: 24px 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.hero-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: #FFB830;
+}
+
+.hero-headline {
+  font-family: 'Sora', sans-serif;
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.5px;
+  color: #ffffff;
+}
+
+.hero-headline span {
+  color: #FFB830;
+}
+
+.hero-tagline {
+  font-size: 16px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.5;
+}
+
+.hero-tagline strong {
+  color: rgba(255,255,255,0.88);
+  font-weight: 700;
+}
+
+/* FEATURES */
+.features {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px 20px 0;
+}
+
+.feature-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.7);
+}
+
+.feature-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.feature-dot.g { background: #2EE87A; box-shadow: 0 0 5px #2EE87A; }
+.feature-dot.b { background: #4AABF0; box-shadow: 0 0 5px #4AABF0; }
+.feature-dot.o { background: #FFB830; box-shadow: 0 0 5px #FFB830; }
+.feature-dot.p { background: #B06EF0; box-shadow: 0 0 5px #B06EF0; }
+
+/* CTA */
+.cta-block {
+  padding: 24px 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.btn-primary {
+  display: block;
+  width: 100%;
+  background: #FFB830;
+  color: #0F1923;
+  font-family: 'Sora', sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  padding: 18px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  letter-spacing: 0.2px;
+}
+
+.btn-secondary {
+  display: block;
+  width: 100%;
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.7);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.1);
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+}
+
+/* PRICING NOTE */
+.pricing-note {
+  text-align: center;
+  font-size: 11px;
+  color: rgba(255,255,255,0.3);
+  padding: 0 20px 8px;
+  line-height: 1.6;
+}
+
+.pricing-note strong {
+  color: #FFB830;
+  font-weight: 700;
+}
+
+/* FOOTER */
+.footer {
+  margin-top: auto;
+  padding: 20px;
+  text-align: center;
+  font-size: 10px;
+  color: rgba(255,255,255,0.2);
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<div class="topnav">
+  <div class="logo">
+    <span class="logo-p">PhamilyFone</span><span class="logo-c">Clone</span>
+  </div>
+  <a href="dashboard.html" class="nav-btn">Sign In</a>
+</div>
+
+<!-- HERO IMAGE -->
+<div class="hero-image-wrap">
+  <img src="hero.image.png" alt="Mom using PhamilyFoneClone app" />
+</div>
+
+<!-- HERO COPY -->
+<div class="hero-copy">
+  <div class="hero-eyebrow">Introducing</div>
+  <h1 class="hero-headline">Family Phone<br><span>Clone</span></h1>
+  <p class="hero-tagline"><strong>One Phone. Many Users.</strong><br>Two numbers. One family. Zero extra plans.</p>
+</div>
+
+<!-- FEATURES -->
+<div class="features">
+  <div class="feature-row"><div class="feature-dot g"></div>Walkie Talkie — Tap to Talk</div>
+  <div class="feature-row"><div class="feature-dot b"></div>Texty Talkie — Tap to Text</div>
+  <div class="feature-row"><div class="feature-dot o"></div>Moderator controls every call</div>
+  <div class="feature-row"><div class="feature-dot p"></div>WiFi only clones — no carrier needed</div>
+</div>
+
+<!-- CTA -->
+<div class="cta-block">
+  <a href="dashboard.html" class="btn-primary">Clone Your Phone Free →</a>
+  <a href="dashboard.html" class="btn-secondary">See How It Works</a>
+</div>
+
+<!-- PRICING NOTE -->
+<div class="pricing-note">
+  Free with ads &nbsp;·&nbsp; <strong>$9.99 once — yours forever</strong> &nbsp;·&nbsp; No monthly fees. Ever.
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  © 2026 PhamilyFoneClone · Family Phone Clone App
+</div>
+
+</body>
+</html>
