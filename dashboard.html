@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>PhamilyFoneClone — Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0A0F1A;
+  --surface: #111827;
+  --surface2: #1A2536;
+  --surface3: #222F42;
+  --border: rgba(255,255,255,0.08);
+  --green: #2ECC71;
+  --red: #E74C3C;
+  --gold: #F0A500;
+  --blue: #3498DB;
+  --purple: #9B59B6;
+  --text: rgba(255,255,255,0.9);
+  --soft: rgba(255,255,255,0.45);
+  --radius: 14px;
+}
+
+body {
+  background: var(--bg);
+  font-family: 'Inter', sans-serif;
+  color: var(--text);
+  max-width: 430px;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+/* ══ TOP NAV ══ */
+.topnav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 18px 10px;
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  z-index: 100;
+  border-bottom: 1px solid var(--border);
+}
+
+.logo {
+  font-family: 'Sora', sans-serif;
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+}
+
+.logo-p { color: var(--gold); }
+.logo-c { color: #fff; }
+
+.topnav-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mod-pill {
+  background: rgba(240,165,0,0.12);
+  border: 1px solid rgba(240,165,0,0.25);
+  color: var(--gold);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: 100px;
+}
+
+.settings-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* ══ FAMILY BAR ══ */
+.family-bar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 0 10px 16px;
+  position: sticky;
+  top: 57px;
+  z-index: 99;
+}
+
+.bar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 16px;
+  margin-bottom: 9px;
+}
+
+.bar-title {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: var(--soft);
+}
+
+.bar-hint { font-size: 9px; color: var(--soft); }
+
+.bar-scroll {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-right: 16px;
+  scroll-snap-type: x mandatory;
+}
+
+.bar-scroll::-webkit-scrollbar { display: none; }
+
+.bar-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  transition: transform 0.18s;
+  min-width: 52px;
+}
+
+.bar-node:active { transform: scale(0.92); }
+
+.bar-av {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 800;
+  font-family: 'Sora', sans-serif;
+  position: relative;
+}
+
+.bar-av.mod { background: rgba(240,165,0,0.15); color: var(--gold); border: 2px solid rgba(240,165,0,0.4); }
+.bar-av.dad { background: rgba(52,152,219,0.15); color: var(--blue); border: 2px solid rgba(52,152,219,0.35); }
+.bar-av.ava { background: rgba(46,204,113,0.15); color: var(--green); border: 2px solid rgba(46,204,113,0.35); }
+.bar-av.ben { background: rgba(231,76,60,0.15); color: var(--red); border: 2px solid rgba(231,76,60,0.35); }
+.bar-av.nora { background: rgba(155,89,182,0.15); color: var(--purple); border: 2px solid rgba(155,89,182,0.35); }
+.bar-av.evan { background: rgba(52,152,219,0.12); color: #5DADE2; border: 2px solid rgba(52,152,219,0.25); }
+.bar-av.add { background: var(--surface3); color: var(--soft); border: 2px dashed rgba(255,255,255,0.12); }
+
+.bar-dot {
+  position: absolute;
+  bottom: 1px;
+  right: 1px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  border: 2px solid var(--surface);
+}
+
+.bar-dot.g { background: var(--green); box-shadow: 0 0 5px var(--green); }
+.bar-dot.r { background: var(--red); }
+.bar-dot.d { background: rgba(255,255,255,0.2); }
+.bar-dot.o { background: var(--gold); box-shadow: 0 0 7px var(--gold); animation: dotPing 0.9s ease-in-out infinite; }
+.bar-dot.b { background: var(--blue); }
+
+.bar-name {
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--soft);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.bar-name.g { color: var(--green); }
+.bar-name.o { color: var(--gold); }
+
+/* ══ CONTENT ══ */
+.content {
+  flex: 1;
+  padding: 14px 16px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ── TALK BUTTONS ── */
+.talk-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.talk-btn {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 16px 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.15s;
+}
+
+.talk-btn:active { transform: scale(0.96); background: var(--surface2); }
+.talk-btn.walkie { border: 1px solid rgba(46,204,113,0.3); }
+.talk-btn.texty { border: 1px solid rgba(52,152,219,0.3); }
+
+.talk-icon { font-size: 24px; flex-shrink: 0; }
+
+.talk-label {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.talk-btn.walkie .talk-label { color: var(--green); }
+.talk-btn.texty .talk-label { color: var(--blue); }
+
+.talk-sub {
+  font-size: 9px;
+  color: var(--soft);
+  margin-top: 2px;
+}
+
+/* ── PING ALERT ── */
+.ping-alert {
+  background: var(--surface);
+  border: 1px solid rgba(240,165,0,0.35);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: pingGlow 1.5s ease-in-out infinite;
+}
+
+.ping-ico { font-size: 20px; animation: iconBounce 1s ease-in-out infinite; flex-shrink: 0; }
+.ping-info { flex: 1; }
+.ping-name { font-size: 13px; font-weight: 700; color: var(--gold); }
+.ping-msg { font-size: 11px; color: var(--soft); margin-top: 2px; }
+
+.ping-btns { display: flex; gap: 6px; flex-shrink: 0; }
+
+.ping-btn {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 7px 11px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.ping-btn.ans { background: var(--gold); color: #0A0F1A; }
+.ping-btn.dis { background: var(--surface3); color: var(--soft); }
+
+/* ── ACTIVE CALL ── */
+.call-banner {
+  background: var(--surface);
+  border: 1px solid rgba(46,204,113,0.2);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.call-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 7px var(--green);
+  animation: dotPing 1.5s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.call-info { flex: 1; }
+.call-title { font-size: 11px; font-weight: 700; color: var(--green); letter-spacing: 0.5px; text-transform: uppercase; }
+.call-sub { font-size: 11px; color: var(--soft); margin-top: 2px; }
+
+.call-join {
+  background: var(--green);
+  color: #0A0F1A;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 7px 13px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+/* ── STATS ── */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 8px;
+}
+
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 8px;
+  text-align: center;
+}
+
+.stat-num {
+  font-family: 'Sora', sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.stat-num.g { color: var(--green); }
+.stat-num.r { color: var(--red); }
+.stat-num.o { color: var(--gold); }
+
+.stat-lbl {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--soft);
+}
+
+/* ── SECTION HEADER ── */
+.sec-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4px;
+}
+
+.sec-title { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--soft); }
+.sec-add { font-size: 11px; font-weight: 600; color: var(--blue); cursor: pointer; }
+
+/* ── TIER LABELS ── */
+.tier-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--soft);
+  padding: 8px 0 4px;
+}
+
+/* ── MEMBER CARDS ── */
+.members { display: flex; flex-direction: column; gap: 8px; }
+
+.mcard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.15s;
+  position: relative;
+}
+
+.mcard:active { transform: scale(0.985); background: var(--surface2); }
+.mcard.s-active { border-color: rgba(46,204,113,0.2); }
+.mcard.s-ping { border-color: rgba(240,165,0,0.35); animation: pingGlow 1.5s ease-in-out infinite; }
+.mcard.s-passive { opacity: 0.65; }
+
+.mav {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 800;
+  font-family: 'Sora', sans-serif;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.mav.mod { background: rgba(240,165,0,0.15); color: var(--gold); border: 2px solid rgba(240,165,0,0.35); }
+.mav.dad { background: rgba(52,152,219,0.15); color: var(--blue); border: 2px solid rgba(52,152,219,0.3); }
+.mav.ava { background: rgba(46,204,113,0.15); color: var(--green); border: 2px solid rgba(46,204,113,0.3); }
+.mav.ben { background: rgba(231,76,60,0.15); color: var(--red); border: 2px solid rgba(231,76,60,0.3); }
+.mav.nora { background: rgba(155,89,182,0.15); color: var(--purple); border: 2px solid rgba(155,89,182,0.3); }
+.mav.evan { background: rgba(52,152,219,0.12); color: #5DADE2; border: 2px solid rgba(52,152,219,0.22); }
+
+.mav::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+}
+
+.mav.ra::after { border-color: var(--green); box-shadow: 0 0 6px var(--green); }
+.mav.rp::after { border-color: var(--gold); animation: ringPing 1s ease-in-out infinite; }
+
+/* Badge on avatar */
+.badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background: var(--blue);
+  color: white;
+  font-size: 8px;
+  font-weight: 800;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--surface);
+}
+
+.badge.missed { background: var(--red); }
+.badge.text { background: var(--blue); }
+
+.minfo { flex: 1; min-width: 0; }
+
+.mname {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.rtag {
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.rtag.mod { background: rgba(240,165,0,0.15); color: var(--gold); }
+.rtag.comod { background: rgba(52,152,219,0.15); color: var(--blue); }
+
+.mstatus {
+  font-size: 11px;
+  font-weight: 500;
+  margin-top: 3px;
+}
+
+.mstatus.active { color: var(--green); }
+.mstatus.ping { color: var(--gold); font-weight: 700; }
+.mstatus.idle { color: var(--soft); }
+.mstatus.oncall { color: var(--green); }
+.mstatus.listen { color: var(--red); }
+.mstatus.offline { color: var(--soft); opacity: 0.5; }
+
+.mstatus .dur { color: var(--soft); font-weight: 400; font-size: 10px; margin-left: 3px; }
+
+.ptag {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  padding: 3px 7px;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.ptag.locked { background: rgba(231,76,60,0.12); color: var(--red); }
+.ptag.supervised { background: rgba(240,165,0,0.12); color: var(--gold); }
+.ptag.open { background: rgba(46,204,113,0.12); color: var(--green); }
+
+.chev { color: var(--soft); font-size: 18px; flex-shrink: 0; line-height: 1; }
+
+/* ══ TALK SHEET ══ */
+.sheet-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 150;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s;
+}
+
+.sheet-overlay.open { opacity: 1; pointer-events: all; }
+
+.sheet {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(100%);
+  width: 100%;
+  max-width: 430px;
+  background: var(--surface);
+  border-radius: 20px 20px 0 0;
+  border-top: 1px solid var(--border);
+  z-index: 151;
+  transition: transform 0.32s cubic-bezier(0.4,0,0.2,1);
+  padding-bottom: 32px;
+}
+
+.sheet.open { transform: translateX(-50%) translateY(0); }
+
+.sheet-handle {
+  width: 36px;
+  height: 4px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 2px;
+  margin: 12px auto 0;
+}
+
+.sheet-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 18px 10px;
+}
+
+.sheet-title {
+  font-family: 'Sora', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.sheet-close {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--soft);
+}
+
+.sheet-members {
+  padding: 4px 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+.sheet-member {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.sheet-member:active { background: var(--surface3); }
+
+.sm-av {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 800;
+  font-family: 'Sora', sans-serif;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.sm-av.mod { background: rgba(240,165,0,0.15); color: var(--gold); border: 2px solid rgba(240,165,0,0.3); }
+.sm-av.dad { background: rgba(52,152,219,0.15); color: var(--blue); border: 2px solid rgba(52,152,219,0.28); }
+.sm-av.ava { background: rgba(46,204,113,0.15); color: var(--green); border: 2px solid rgba(46,204,113,0.28); }
+.sm-av.ben { background: rgba(231,76,60,0.15); color: var(--red); border: 2px solid rgba(231,76,60,0.28); }
+.sm-av.nora { background: rgba(155,89,182,0.15); color: var(--purple); border: 2px solid rgba(155,89,182,0.28); }
+.sm-av.evan { background: rgba(52,152,219,0.12); color: #5DADE2; border: 2px solid rgba(52,152,219,0.2); }
+
+.sm-dot {
+  position: absolute;
+  bottom: 1px;
+  right: 1px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid var(--surface2);
+}
+
+.sm-dot.g { background: var(--green); }
+.sm-dot.d { background: rgba(255,255,255,0.18); }
+.sm-dot.o { background: var(--gold); }
+
+.sm-info { flex: 1; }
+.sm-name { font-size: 14px; font-weight: 700; color: var(--text); }
+.sm-status { font-size: 11px; color: var(--soft); margin-top: 2px; }
+
+.sm-action {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 7px 13px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.walkie-mode .sm-action { background: rgba(46,204,113,0.15); color: var(--green); }
+.texty-mode .sm-action { background: rgba(52,152,219,0.15); color: var(--blue); }
+
+.sheet-all-btn {
+  margin: 12px 16px 0;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 13px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--soft);
+}
+
+/* ══ DETAIL VIEW ══ */
+.detail-page {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  max-width: 430px;
+  margin: 0 auto;
+  transform: translateX(100%);
+  transition: transform 0.32s cubic-bezier(0.4,0,0.2,1);
+  overflow-y: auto;
+}
+
+.detail-page.open { transform: translateX(0); }
+
+.detail-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  z-index: 10;
+}
+
+.back-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  color: var(--text);
+  line-height: 1;
+}
+
+.detail-nav-title {
+  font-family: 'Sora', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.detail-body {
+  padding: 20px 16px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Avatar block */
+.d-av-block {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 8px 0;
+}
+
+.d-av {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  font-weight: 800;
+  font-family: 'Sora', sans-serif;
+  flex-shrink: 0;
+}
+
+.d-av.mod { background: rgba(240,165,0,0.15); color: var(--gold); border: 3px solid rgba(240,165,0,0.4); }
+.d-av.dad { background: rgba(52,152,219,0.15); color: var(--blue); border: 3px solid rgba(52,152,219,0.35); }
+.d-av.ava { background: rgba(46,204,113,0.15); color: var(--green); border: 3px solid rgba(46,204,113,0.4); }
+.d-av.ben { background: rgba(231,76,60,0.15); color: var(--red); border: 3px solid rgba(231,76,60,0.35); }
+.d-av.nora { background: rgba(155,89,182,0.15); color: var(--purple); border: 3px solid rgba(155,89,182,0.35); }
+.d-av.evan { background: rgba(52,152,219,0.12); color: #5DADE2; border: 3px solid rgba(52,152,219,0.25); }
+
+.d-av-info { flex: 1; }
+
+.d-av-name {
+  font-family: 'Sora', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+.d-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.d-status-pill.active { background: rgba(46,204,113,0.15); color: var(--green); border: 1px solid rgba(46,204,113,0.3); }
+.d-status-pill.idle { background: var(--surface2); color: var(--soft); border: 1px solid var(--border); }
+.d-status-pill.ping { background: rgba(240,165,0,0.15); color: var(--gold); border: 1px solid rgba(240,165,0,0.3); }
+.d-status-pill.oncall { background: rgba(46,204,113,0.15); color: var(--green); border: 1px solid rgba(46,204,113,0.3); }
+.d-status-pill.offline { background: var(--surface2); color: var(--soft); border: 1px solid var(--border); opacity: 0.6; }
+
+.pill-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.pill-dot.g { background: var(--green); }
+.pill-dot.d { background: var(--soft); }
+.pill-dot.o { background: var(--gold); }
+.pill-dot.r { background: var(--red); }
+
+/* Action grid */
+.act-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.act-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 15px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.15s;
+}
+
+.act-btn:active { transform: scale(0.96); background: var(--surface2); }
+.act-btn .ico { font-size: 22px; }
+.act-btn .lbl { font-size: 11px; font-weight: 700; color: var(--soft); text-align: center; }
+.act-btn .sub { font-size: 9px; color: var(--soft); opacity: 0.7; }
+
+.act-btn.walkie { border-color: rgba(46,204,113,0.25); } .act-btn.walkie .lbl { color: var(--green); }
+.act-btn.texty { border-color: rgba(52,152,219,0.25); } .act-btn.texty .lbl { color: var(--blue); }
+.act-btn.listen { border-color: rgba(231,76,60,0.2); } .act-btn.listen .lbl { color: var(--red); }
+
+/* Detail sections */
+.dsec {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.dsec-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--gold);
+  padding: 12px 16px 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.drow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.drow:last-child { border-bottom: none; }
+
+.drow-lbl {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.drow-lbl .ico { font-size: 16px; }
+.drow-val { font-size: 12px; font-weight: 600; color: var(--soft); }
+
+/* Toggle */
+.toggle {
+  width: 44px;
+  height: 24px;
+  border-radius: 12px;
+  background: var(--surface3);
+  border: 1px solid var(--border);
+  position: relative;
+  cursor: pointer;
+  transition: background 0.25s;
+  flex-shrink: 0;
+}
+
+.toggle.on { background: var(--gold); border-color: var(--gold); }
+
+.toggle::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: white;
+  transition: transform 0.25s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.toggle.on::after { transform: translateX(20px); }
+
+/* Permission selector */
+.perm-sel {
+  display: flex;
+  gap: 6px;
+  padding: 12px 14px;
+}
+
+.perm-opt {
+  flex: 1;
+  text-align: center;
+  padding: 10px 4px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--soft);
+  transition: all 0.18s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.perm-opt .pico { font-size: 16px; }
+
+.perm-opt.sel-locked { background: rgba(231,76,60,0.12); color: var(--red); border-color: rgba(231,76,60,0.3); }
+.perm-opt.sel-supervised { background: rgba(240,165,0,0.12); color: var(--gold); border-color: rgba(240,165,0,0.3); }
+.perm-opt.sel-open { background: rgba(46,204,113,0.12); color: var(--green); border-color: rgba(46,204,113,0.3); }
+
+/* Monitoring tier selector */
+.tier-sel {
+  display: flex;
+  gap: 8px;
+  padding: 12px 14px;
+}
+
+.tier-opt {
+  flex: 1;
+  text-align: center;
+  padding: 10px 8px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--soft);
+  transition: all 0.18s;
+}
+
+.tier-opt.sel-active { background: rgba(240,165,0,0.12); color: var(--gold); border-color: rgba(240,165,0,0.3); }
+.tier-opt.sel-passive { background: var(--surface3); color: var(--soft); border-color: var(--border); }
+
+/* ── ANIMATIONS ── */
+@keyframes dotPing {
+  0%,100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.5); opacity: 0.6; }
+}
+
+@keyframes ringPing {
+  0%,100% { box-shadow: 0 0 8px var(--gold); }
+  50% { box-shadow: 0 0 18px var(--gold), 0 0 30px rgba(240,165,0,0.3); }
+}
+
+@keyframes pingGlow {
+  0%,100% { box-shadow: none; }
+  50% { box-shadow: 0 0 16px rgba(240,165,0,0.12); }
+}
+
+@keyframes iconBounce {
+  0%,100% { transform: scale(1) rotate(0deg); }
+  25% { transform: scale(1.2) rotate(-12deg); }
+  75% { transform: scale(1.2) rotate(12deg); }
+}
+
+/* ── RESPONSIVE TABLET ── */
+@media (min-width: 431px) {
+  body { max-width: 768px; }
+  .act-grid { grid-template-columns: repeat(4, 1fr); }
+  .talk-row { gap: 14px; }
+  .stats-row { gap: 12px; }
+  .hero-block { aspect-ratio: 16/9; }
+}
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<div class="topnav">
+  <div class="logo">
+    <span class="logo-p">PhamilyFone</span><span class="logo-c">Clone</span>
+  </div>
+  <div class="topnav-right">
+    <div class="mod-pill">👑 Moderator</div>
+    <div class="settings-btn">⚙️</div>
+  </div>
+</div>
+
+<!-- FAMILY LINE BAR -->
+<div class="family-bar">
+  <div class="bar-head">
+    <div class="bar-title">Family Line</div>
+    <div class="bar-hint">Swipe for more ›</div>
+  </div>
+  <div class="bar-scroll">
+
+    <div class="bar-node" onclick="openDetail('mod')">
+      <div class="bar-av mod">👑<div class="bar-dot g"></div></div>
+      <div class="bar-name g">You</div>
+    </div>
+
+    <div class="bar-node" onclick="openDetail('dad')">
+      <div class="bar-av dad">D<div class="bar-dot g"></div></div>
+      <div class="bar-name g">Dad</div>
+    </div>
+
+    <div class="bar-node" onclick="openDetail('ava')">
+      <div class="bar-av ava">A<div class="bar-dot g"></div></div>
+      <div class="bar-name g">Ava</div>
+    </div>
+
+    <div class="bar-node" onclick="openDetail('ben')">
+      <div class="bar-av ben">B<div class="bar-dot o"></div></div>
+      <div class="bar-name o">Ben</div>
+    </div>
+
+    <div class="bar-node" onclick="openDetail('nora')">
+      <div class="bar-av nora">N<div class="bar-dot d"></div></div>
+      <div class="bar-name">Nora</div>
+    </div>
+
+    <div class="bar-node" onclick="openDetail('evan')">
+      <div class="bar-av evan">E<div class="bar-dot d"></div></div>
+      <div class="bar-name">Evan</div>
+    </div>
+
+    <div class="bar-node">
+      <div class="bar-av add">+</div>
+      <div class="bar-name">Add</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- TALK BUTTONS -->
+  <div class="talk-row">
+    <div class="talk-btn walkie" onclick="openSheet('walkie')">
+      <div class="talk-icon">🎙️</div>
+      <div>
+        <div class="talk-label">Walkie Talkie</div>
+        <div class="talk-sub">Tap to Talk</div>
+      </div>
+    </div>
+    <div class="talk-btn texty" onclick="openSheet('texty')">
+      <div class="talk-icon">💬</div>
+      <div>
+        <div class="talk-label">Texty Talkie</div>
+        <div class="talk-sub">Tap to Text</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PING ALERT -->
+  <div class="ping-alert" id="pingAlert">
+    <div class="ping-ico">📣</div>
+    <div class="ping-info">
+      <div class="ping-name">Ben is calling you</div>
+      <div class="ping-msg">Walkie talkie request</div>
+    </div>
+    <div class="ping-btns">
+      <button class="ping-btn ans" onclick="answerPing()">Answer</button>
+      <button class="ping-btn dis" onclick="dismissPing()">Later</button>
+    </div>
+  </div>
+
+  <!-- ACTIVE CALL -->
+  <div class="call-banner">
+    <div class="call-dot"></div>
+    <div class="call-info">
+      <div class="call-title">Line Active</div>
+      <div class="call-sub">Ava · Outside call · 4:32</div>
+    </div>
+    <button class="call-join">Join</button>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num g">4</div><div class="stat-lbl">Online</div></div>
+    <div class="stat-card"><div class="stat-num r">1</div><div class="stat-lbl">On Call</div></div>
+    <div class="stat-card"><div class="stat-num o">1</div><div class="stat-lbl">Pinging</div></div>
+  </div>
+
+  <!-- ACTIVE MEMBERS -->
+  <div class="sec-head">
+    <div class="sec-title">All Members</div>
+    <div class="sec-add">+ Add Member</div>
+  </div>
+
+  <div class="tier-label">Active Monitoring</div>
+
+  <div class="members">
+
+    <div class="mcard s-mod" onclick="openDetail('mod')">
+      <div class="mav mod ra">👑</div>
+      <div class="minfo">
+        <div class="mname">You <span class="rtag mod">Moderator</span></div>
+        <div class="mstatus active">Active · This device</div>
+      </div>
+      <div class="chev">›</div>
+    </div>
+
+    <div class="mcard s-active" onclick="openDetail('dad')">
+      <div class="mav dad ra">D</div>
+      <div class="minfo">
+        <div class="mname">Dad <span class="rtag comod">Co-Mod</span></div>
+        <div class="mstatus active">Active <span class="dur">· 8m ago</span></div>
+      </div>
+      <div class="chev">›</div>
+    </div>
+
+    <div class="mcard s-active" onclick="openDetail('ava')">
+      <div class="mav ava ra">A</div>
+      <div class="minfo">
+        <div class="mname">Ava</div>
+        <div class="mstatus oncall">On call <span class="dur">· 4:32</span></div>
+      </div>
+      <div class="ptag supervised">Supervised</div>
+      <div class="chev">›</div>
+    </div>
+
+    <div class="mcard s-ping" onclick="openDetail('ben')">
+      <div class="mav ben rp">B
+        <div class="badge missed">1</div>
+      </div>
+      <div class="minfo">
+        <div class="mname">Ben</div>
+        <div class="mstatus ping">📣 Calling you now!</div>
+      </div>
+      <div class="ptag locked">Locked</div>
+      <div class="chev">›</div>
+    </div>
+
+  </div>
+
+  <div class="tier-label">Passive Monitoring</div>
+
+  <div class="members">
+
+    <div class="mcard s-passive" onclick="openDetail('nora')">
+      <div class="mav nora">N</div>
+      <div class="minfo">
+        <div class="mname">Nora</div>
+        <div class="mstatus idle">Idle · WiFi only</div>
+      </div>
+      <div class="ptag locked">Locked</div>
+      <div class="chev">›</div>
+    </div>
+
+    <div class="mcard s-passive" onclick="openDetail('evan')">
+      <div class="mav evan">E</div>
+      <div class="minfo">
+        <div class="mname">Evan</div>
+        <div class="mstatus offline">Offline</div>
+      </div>
+      <div class="ptag locked">Locked</div>
+      <div class="chev">›</div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- TALK SHEET -->
+<div class="sheet-overlay" id="sheetOverlay" onclick="closeSheet()"></div>
+<div class="sheet" id="sheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-head">
+    <div class="sheet-title" id="sheetTitle">🎙️ Tap to Talk — Who?</div>
+    <div class="sheet-close" onclick="closeSheet()">✕</div>
+  </div>
+  <div class="sheet-members" id="sheetMembers"></div>
+  <div class="sheet-all-btn" id="sheetAllBtn" onclick="closeSheet()">📢 Talk to Everyone</div>
+</div>
+
+<!-- DETAIL VIEW -->
+<div class="detail-page" id="detailPage">
+  <div class="detail-nav">
+    <div class="back-btn" onclick="closeDetail()">‹</div>
+    <div class="detail-nav-title" id="detailTitle">Member</div>
+  </div>
+  <div class="detail-body" id="detailBody"></div>
+</div>
+
+<script>
+const M = {
+  mod: { label:'You', av:'👑', cls:'mod', status:'active', sl:'This Device', perm:'open', tier:'active', wifi:false, last:'Now', dur:'—', role:'mod' },
+  dad: { label:'Dad', av:'D', cls:'dad', status:'active', sl:'Active · 8m', perm:'open', tier:'active', wifi:false, last:'8 min ago', dur:'—', role:'comod' },
+  ava: { label:'Ava', av:'A', cls:'ava', status:'oncall', sl:'On Call · 4:32', perm:'supervised', tier:'active', wifi:true, last:'Now', dur:'4:32', role:null },
+  ben: { label:'Ben', av:'B', cls:'ben', status:'ping', sl:'Calling You!', perm:'locked', tier:'active', wifi:true, last:'Right now', dur:'—', role:null },
+  nora: { label:'Nora', av:'N', cls:'nora', status:'idle', sl:'Idle', perm:'locked', tier:'passive', wifi:true, last:'Yesterday', dur:'—', role:null },
+  evan: { label:'Evan', av:'E', cls:'evan', status:'offline', sl:'Offline', perm:'locked', tier:'passive', wifi:true, last:'2 days ago', dur:'—', role:null }
+};
+
+let currentMode = 'walkie';
+
+function openSheet(mode) {
+  currentMode = mode;
+  const isWalkie = mode === 'walkie';
+  document.getElementById('sheetTitle').textContent = isWalkie ? '🎙️ Tap to Talk — Who?' : '💬 Tap to Text — Who?';
+  document.getElementById('sheetAllBtn').textContent = isWalkie ? '📢 Talk to Everyone' : '📢 Text Everyone';
+  const sheet = document.getElementById('sheet');
+  sheet.className = `sheet open ${isWalkie ? 'walkie-mode' : 'texty-mode'}`;
+  document.getElementById('sheetOverlay').classList.add('open');
+
+  const dotMap = { active:'g', oncall:'g', ping:'o', idle:'d', offline:'d' };
+  const statusMap = { active:'Online', oncall:'On Call', ping:'Calling you!', idle:'Idle', offline:'Offline' };
+
+  document.getElementById('sheetMembers').innerHTML = Object.entries(M)
+    .filter(([id]) => id !== 'mod')
+    .map(([id, m]) => `
+      <div class="sheet-member" onclick="closeSheet()">
+        <div class="sm-av ${m.cls}">${m.av}<div class="sm-dot ${dotMap[m.status]}"></div></div>
+        <div class="sm-info">
+          <div class="sm-name">${m.label}</div>
+          <div class="sm-status">${statusMap[m.status]}</div>
+        </div>
+        <button class="sm-action">${isWalkie ? '🎙️ Talk' : '💬 Text'}</button>
+      </div>
+    `).join('');
+}
+
+function closeSheet() {
+  document.getElementById('sheet').classList.remove('open');
+  document.getElementById('sheetOverlay').classList.remove('open');
+}
+
+function openDetail(id) {
+  const m = M[id]; if(!m) return;
+  document.getElementById('detailTitle').textContent = m.label;
+
+  const pillMap = {
+    active: { cls:'active', dot:'g', label: m.sl },
+    oncall: { cls:'oncall', dot:'g', label: m.sl },
+    ping: { cls:'ping', dot:'o', label: m.sl },
+    idle: { cls:'idle', dot:'d', label:'Idle' },
+    offline: { cls:'offline', dot:'d', label:'Offline' }
+  };
+
+  const pm = pillMap[m.status] || pillMap.idle;
+  const isKid = !['mod','dad'].includes(id);
+  const isDad = id === 'dad';
+
+  const permOpts = ['locked','supervised','open'].map(opt => {
+    const icons = { locked:'🔒', supervised:'🛡️', open:'✅' };
+    const labels = { locked:'Locked', supervised:'Supervised', open:'Open' };
+    return `<div class="perm-opt ${m.perm===opt?'sel-'+opt:''}" onclick="setPerm('${id}','${opt}',this)">
+      <span class="pico">${icons[opt]}</span>${labels[opt]}
+    </div>`;
+  }).join('');
+
+  const tierOpts = ['active','passive'].map(t => `
+    <div class="tier-opt ${m.tier===t?'sel-'+t:''}" onclick="setTier('${id}','${t}',this)">
+      ${t==='active'?'👁️ Active':'🔕 Passive'}
+    </div>
+  `).join('');
+
+  document.getElementById('detailBody').innerHTML = `
+
+    <div class="d-av-block">
+      <div class="d-av ${m.cls}">${m.av}</div>
+      <div class="d-av-info">
+        <div class="d-av-name">${m.label}</div>
+        <div class="d-status-pill ${pm.cls}">
+          <div class="pill-dot ${pm.dot}"></div>
+          ${pm.label}
+        </div>
+      </div>
+    </div>
+
+    ${id !== 'mod' ? `
+    <div class="act-grid">
+      <div class="act-btn walkie" onclick="closeDetail();openSheet('walkie')">
+        <div class="ico">🎙️</div>
+        <div class="lbl">Walkie Talkie</div>
+        <div class="sub">Tap to Talk</div>
+      </div>
+      <div class="act-btn texty" onclick="closeDetail();openSheet('texty')">
+        <div class="ico">💬</div>
+        <div class="lbl">Texty Talkie</div>
+        <div class="sub">Tap to Text</div>
+      </div>
+      <div class="act-btn listen">
+        <div class="ico">👂</div>
+        <div class="lbl">Listen In</div>
+        <div class="sub">Listen to Surroundings</div>
+      </div>
+      <div class="act-btn">
+        <div class="ico">📵</div>
+        <div class="lbl">End Call</div>
+        <div class="sub">Disconnect Call</div>
+      </div>
+    </div>` : ''}
+
+    ${isKid ? `
+    <div class="dsec">
+      <div class="dsec-title">Permission Level</div>
+      <div class="perm-sel">${permOpts}</div>
+    </div>
+
+    <div class="dsec">
+      <div class="dsec-title">Monitoring Tier</div>
+      <div class="tier-sel">${tierOpts}</div>
+    </div>` : ''}
+
+    <div class="dsec">
+      <div class="dsec-title">Status</div>
+      <div class="drow">
+        <div class="drow-lbl"><span class="ico">📶</span> Connection</div>
+        <div class="drow-val">${m.wifi ? 'WiFi Only' : 'Full Network'}</div>
+      </div>
+      <div class="drow">
+        <div class="drow-lbl"><span class="ico">🕐</span> Last Active</div>
+        <div class="drow-val">${m.last}</div>
+      </div>
+      <div class="drow">
+        <div class="drow-lbl"><span class="ico">⏱️</span> Call Duration</div>
+        <div class="drow-val">${m.dur}</div>
+      </div>
+    </div>
+
+    ${isKid ? `
+    <div class="dsec">
+      <div class="dsec-title">Moderator Controls</div>
+      <div class="drow">
+        <div class="drow-lbl"><span class="ico">🔔</span> Ping Alerts</div>
+        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="drow">
+        <div class="drow-lbl"><span class="ico">🛡️</span> Block Outside Calls</div>
+        <div class="toggle ${m.perm==='locked'?'on':''}" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="drow">
+        <div class="drow-lbl"><span class="ico">⏰</span> Daily Call Limit</div>
+        <div class="drow-val" style="color:var(--gold); cursor:pointer;">30 minutes ›</div>
+      </div>
+      <div class="drow">
+        <div class="drow-lbl"><span class="ico">📍</span> Bar Position</div>
+        <div class="drow-val">Auto Priority</div>
+      </div>
+    </div>` : ''}
+
+    ${isDad ? `
+    <div class="dsec">
+      <div class="dsec-title">Co-Moderator Privacy</div>
+      <div class="drow">
+        <div class="drow-lbl"><span class="ico">🔐</span> Lateral Privacy</div>
+        <div class="drow-val">Negotiated</div>
+      </div>
+      <div class="drow">
+        <div class="drow-lbl"><span class="ico">👁️</span> See My Activity</div>
+        <div class="toggle" onclick="this.classList.toggle('on')"></div>
+      </div>
+    </div>` : ''}
+
+  `;
+
+  document.getElementById('detailPage').classList.add('open');
+}
+
+function closeDetail() {
+  document.getElementById('detailPage').classList.remove('open');
+}
+
+function setPerm(id, perm, el) {
+  if(!M[id]) return;
+  M[id].perm = perm;
+  el.closest('.perm-sel').querySelectorAll('.perm-opt').forEach(o => {
+    o.className = 'perm-opt';
+    if(o === el) o.classList.add('sel-'+perm);
+  });
+}
+
+function setTier(id, tier, el) {
+  if(!M[id]) return;
+  M[id].tier = tier;
+  el.closest('.tier-sel').querySelectorAll('.tier-opt').forEach(o => {
+    o.className = 'tier-opt';
+    if(o === el) o.classList.add('sel-'+tier);
+  });
+}
+
+function dismissPing() {
+  const alert = document.getElementById('pingAlert');
+  if(alert) {
+    alert.style.opacity = '0';
+    alert.style.transform = 'translateY(-8px)';
+    alert.style.transition = 'opacity 0.3s, transform 0.3s';
+    setTimeout(() => alert.remove(), 300);
+  }
+}
+
+function answerPing() {
+  dismissPing();
+  openSheet('walkie');
+}
+</script>
+
+</body>
+</html>
